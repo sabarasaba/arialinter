@@ -28,32 +28,145 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <h3>Welcome to GitHub Pages.</h3>
+          <h1>
+<a href="http://arialinter.aws.af.cm/">ArialLinter</a> <a href="http://travis-ci.org/globant-ui/arialinter"><img src="https://api.travis-ci.org/globant-ui/arialinter.png?branch=master" alt="Build Status"></a>
+</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>ArialLinter goal is twofold:</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<ul>
+<li>provide a simple accessibility linter for HTML documents</li>
+<li>provide a Grunt task based on the linter in order to integrate accesibility best practices 
+right into the developer workflow</li>
+</ul><h2>Demo</h2>
+
+<p>The demo is currently deployed in <a href="http://arialinter.aws.af.cm/">http://arialinter.aws.af.cm/</a>.</p>
+
+<h2>Getting Started</h2>
+
+<h3>Grunt task</h3>
+
+<p>This plugin requires Grunt <code>~0.4.0</code></p>
+
+<p>If you haven't used <a href="http://gruntjs.com/">Grunt</a> before, be sure to check out the <a href="http://gruntjs.com/getting-started">Getting Started</a> guide, as it explains how to create a <a href="http://gruntjs.com/sample-gruntfile">Gruntfile</a> as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:</p>
+
+<pre lang="shell"><code>$ npm install grunt-arialinter --save-dev
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<p>Once the plugin has been installed, it can be enabled inside your Gruntfile with this line of JavaScript:</p>
 
-<h3>Designer Templates</h3>
+<div class="highlight"><pre><span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">'grunt-arialinter'</span><span class="p">);</span>
+</pre></div>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<p>Afterwards, files, markup, and url's can be linted:</p>
 
-<h3>Rather Drive Stick?</h3>
+<div class="highlight"><pre><span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">({</span>
+  <span class="nx">arialinter</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">files</span><span class="o">:</span> <span class="p">[</span>
+      <span class="s1">'https://www.google.com/'</span><span class="p">,</span>
+      <span class="s1">'./templates/*.html'</span><span class="p">,</span>
+      <span class="s1">'&lt;!doctype html&gt;&lt;html lang="en"&gt;&lt;head&gt;&lt;title&gt;titulo test&lt;/title&gt;&lt;/head&gt;&lt;body style="background-color: white;"&gt; &lt;h1 style="color: black;"&gt;hola&lt;/h1&gt;&lt;img src="asdf.jpg" alt="woop" /&gt; &lt;div class="entry"&gt; &lt;p&gt;{{title}}&lt;/p&gt; &lt;h2&gt;By {{author.name}}&lt;/h2&gt; &lt;div class="body"&gt;{{body}}&lt;/div&gt;&lt;/div&gt; &lt;/body&gt; &lt;/html&gt;'</span>
+    <span class="p">],</span>
+    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">templates</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nx">levels</span><span class="o">:</span> <span class="s1">'A'</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">});</span>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">'default'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'arialinter'</span><span class="p">]);</span>
+</pre></div>
 
-<h3>Authors and Contributors</h3>
+<p>Options:</p>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<ul>
+<li>templates: if templates is <strong>true</strong> then a subset of the rules will be run. This subset comprises those rules 
+that can be checked against a static HTML template. Rules that require checking the correct event-handlers or any other 
+dynamic condition wont be run. By contrast, if templates is <strong>false</strong> then all rules will be run</li>
+<li>levels: indicates which rules will be run according to the level they belong to. If you dont specify any level, it'' run for all the levels.</li>
+</ul><h3>Nodejs</h3>
 
-<h3>Support or Contact</h3>
+<p>You can also use it with nodejs like a regular library</p>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<p>Install the package from npm</p>
+
+<pre lang="shell"><code>$ npm install arialinter --save-dev
+</code></pre>
+
+<p>Then, using arialinter, is as easy as:</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">ArialLinter</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'arialinter'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">linter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ArialLinter</span><span class="p">();</span>
+
+<span class="nx">linter</span><span class="p">.</span><span class="nx">initialize</span><span class="p">(</span><span class="nx">fileOrUrl</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">linter</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">()){</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'success'</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'failed'</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>You can also pass an options argument to the evaluate() method:</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">ArialLinter</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'arialinter'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">linter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ArialLinter</span><span class="p">();</span>
+
+<span class="nx">linter</span><span class="p">.</span><span class="nx">initialize</span><span class="p">(</span><span class="nx">fileOrUrl</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">linter</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">({</span><span class="nx">level</span><span class="o">:</span> <span class="s1">'A'</span><span class="p">,</span> <span class="nx">template</span><span class="o">:</span> <span class="kc">true</span><span class="p">})){</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'success'</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'failed'</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3>CLI</h3>
+
+<p>To run arialinter from the command line:</p>
+
+<pre lang="shell"><code>$ npm install -g arialinter
+</code></pre>
+
+<p>Display all the rules</p>
+
+<div class="highlight"><pre><span class="nx">$</span> <span class="nx">arialinter</span> <span class="o">--</span><span class="nx">rules</span>
+</pre></div>
+
+<p>Execute the linter just for templates</p>
+
+<div class="highlight"><pre><span class="nx">$</span> <span class="nx">arialinter</span> <span class="o">--</span><span class="nx">templates</span> <span class="nx">test</span><span class="o">/</span><span class="nx">testFiles</span><span class="o">/</span><span class="nx">template</span><span class="p">.</span><span class="nx">html</span>
+</pre></div>
+
+<p>Execute the linter using all the rules of the level A</p>
+
+<div class="highlight"><pre><span class="nx">$</span> <span class="nx">arialinter</span> <span class="o">--</span><span class="nx">level</span> <span class="nx">A</span>  <span class="nx">test</span><span class="o">/</span><span class="nx">testFiles</span><span class="o">/</span><span class="nx">index</span><span class="p">.</span><span class="nx">html</span>
+</pre></div>
+
+<p>Execute the linter using all the rules of the level A and the rules that just apply for templates</p>
+
+<div class="highlight"><pre><span class="nx">$</span> <span class="nx">arialinter</span> <span class="o">--</span><span class="nx">level</span> <span class="nx">A</span> <span class="o">--</span><span class="nx">templates</span> <span class="nx">test</span><span class="o">/</span><span class="nx">testFiles</span><span class="o">/</span><span class="nx">index</span><span class="p">.</span><span class="nx">html</span>
+</pre></div>
+
+<h2>Resources:</h2>
+
+<ul>
+<li>Accessibility
+
+<ul>
+<li>WAI-ARIA Authoring Practices: <a href="http://www.w3.org/TR/wai-aria-practices/">http://www.w3.org/TR/wai-aria-practices/</a>
+</li>
+<li><a href="http://www.w3.org/TR/WCAG20-TECHS/html.html">http://www.w3.org/TR/WCAG20-TECHS/html.html</a></li>
+<li><a href="http://dev.w3.org/html5/alt-techniques/">http://dev.w3.org/html5/alt-techniques/</a></li>
+<li><a href="https://dvcs.w3.org/hg/aria-unofficial/raw-file/tip/index.html">https://dvcs.w3.org/hg/aria-unofficial/raw-file/tip/index.html</a></li>
+<li><a href="http://www.openajax.org/member/wiki/Accessibility_-_WCAG20_Validation_Rules">http://www.openajax.org/member/wiki/Accessibility_-_WCAG20_Validation_Rules</a></li>
+</ul>
+</li>
+</ul><h2>License</h2>
+
+<p>Copyright (c) 2013 Globant UI Developers</p>
+
+<p>Licensed under the MIT license.</p>
         </section>
 
         <aside id="sidebar">
